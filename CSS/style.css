@@ -1,0 +1,31 @@
+
+
+
+.Grid{
+    display: grid;
+   grid-template-columns: repet(auto-fill, minmax(300px 900px));
+   grid-template-rows: auto ; 
+}
+.BarraSup{
+    background-color: blue;
+    border: 2px solid black;
+}
+
+/*carga para diferentes dispositivos  **por modificar**  */
+@media screen and (max-width:1000px){
+    .col-m{
+        float: left;
+        width: 50%;
+        padding: 0 10 px;
+    }
+responsibidad
+}
+
+@media screen and (max-width:600px){
+    .col-s{
+        float: left;
+        width: 100%;
+        padding: 0 10 px;
+    }
+
+}
