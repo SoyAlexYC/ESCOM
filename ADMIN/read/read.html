@@ -10,8 +10,32 @@
 </head>
 
 <body>
-    <div class="text-light bg-dark " style="height: 100vh; width: 100vw">
-        <form id="busqueda" method="GET" class="needs-validation">
+    <div class="container-fluid">
+        <div class="row" style="background-color:#10312B;">
+            <!--Banner de arriba verde con logo del gobierno-->
+            <div class="col-6 col-lg-4 mt-1 mb-1 d-flex justify-content-center align-items-center p-0"><a href="https://www.gob.mx/"><img class="img-fluid float-end" src="gobmxlogo.png" alt="LOGO_GOBIERNO"></a></div>
+            <div class="col-6 col-lg-2 d-flex justify-content-center align-items-center p-0"><a href="https://mivacuna.salud.gob.mx/" style="font-size: 12px; color: white; text-decoration: none;">REGISTRO PARA VACUNACIÓN</a></div>
+            <div class="col-5 col-lg-2 d-flex justify-content-center align-items-center p-0"><a href="https://coronavirus.gob.mx/" style="font-size: 12px; color: white; text-decoration: none;">INFORMACIÓN SOBRE COVID-19</a></div>
+            <div class="col-2 col-lg-1 d-flex justify-content-center align-items-center p-0"><a href="https://www.gob.mx/tramites" style="font-size: 12px; color: white; text-decoration: none;">TRÁMITES</a></div>
+            <div class="col-2 col-lg-1 d-flex justify-content-center align-items-center p-0"><a href="https://www.gob.mx/gobierno" style="font-size: 12px; color: white; text-decoration: none;">GOBIERNO</a></div>
+            <div class="col-2 col-lg-1 d-flex justify-content-center align-items-center p-0"><a href="https://www.gob.mx/segob/en" style="font-size: 12px; color: white; text-decoration: none;">ENGLISH</a></div>
+            <div class="col-1 col-lg-1 d-flex justify-content-start align-items-center p-0"><a href="https://www.gob.mx/busqueda" style="font-size: 12px; color: white; text-decoration: none;"><i class="fa-solid fa-magnifying-glass"></i></a></div>
+
+        </div>
+    </div>
+  
+    
+
+
+    <div class="container-fluid  ">
+        <div class="row " style="background-color: #109DFA;">
+            <p class="h2 text-center" >Resultados de busqueda para: </p>
+        </div>
+    </div>
+         <div class="container p-3 my-3">
+             <footer class="blockquote-footer">Mostrando los resultados de </footer>
+         </div>
+             <form id="busqueda" method="GET" class="needs-validation">
             <div class="col-md-4">
                 <label for="validationCustom01" class="form-label">Ingresa tu profesor...</label>
                 <input type="text" name="search" class="form-control" id="validationCustom01" onkeyup="busq(this.value)"
@@ -20,36 +44,42 @@
                     Looks good!
                 </div>
             </div>
+
             <div id="jaja" class="col-12 ">Ingresa tu profesor
             </div>
         </form>
-        <div>
+
+        <div class="container p-3 my-3">
             <div>
                 <div id="Profe" name="prof"
                     class="fs-5 d-flex justify-content-between rounded-pill border border-primary">
                     <div>Por profe</div>
-                    <div>xd</div>
-                    <div>xd</div>
+                    
                 </div>
             </div>
             <div>
                 <div id="Materia" name="prof"
                     class="fs-5 d-flex justify-content-between rounded-pill border border-primary">
                     <div>por materia</div>
-                    <div>xd</div>
-                    <div>xd</div>
+                    
                 </div>
             </div>
             <div>
                 <div id="Grupo" name="prof"
                     class="fs-5 d-flex justify-content-between rounded-pill border border-primary">
                     <div>por grupo</div>
-                    <div>juasjuas</div>
-                    <div>xd</div>
+                    
                 </div>
+                <div id="jaja" class="col-12 ">Data no encontrada
+      </div>
             </div>
         </div>
-    </div>
+
+
+
+
+
+
     <script>
         var prev_def = function (event) {
             event.preventDefault();
@@ -57,11 +87,11 @@
         var form = document.getElementById("busqueda");
         form.addEventListener("submit", prev_def, true);
         var link = document.getElementById("Profe");
-        link.addEventListener("click", function () { window.location.href = "/web4/read/profesor.html"});
+        link.addEventListener("click", function () { window.location.href = "/ESCOM/ADMIN/read/profesor.html"});
         link = document.getElementById("Materia");
-        link.addEventListener("click", function () { window.location.href = "/web4/read/materia.html"});
+        link.addEventListener("click", function () { window.location.href = "/ESCOM/ADMIN/read/materia.html"});
         link = document.getElementById("Grupo");
-        link.addEventListener("click", function () { window.location.href = "/web4/read/grupo.html"});
+        link.addEventListener("click", function () { window.location.href = "/ESCOM/ADMIN/read/grupo.html"});
 
         function busq(str) {
             if (str.length == 0) {
@@ -84,3 +114,21 @@
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

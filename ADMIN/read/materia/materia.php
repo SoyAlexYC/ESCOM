@@ -5,7 +5,7 @@
     
   $search = $_GET["materia"];
     //manera 1 de conectar 
-    $mysqli = new mysqli("localhost", "ale", "ola", "escom");
+    $mysqli = new mysqli("localhost", "admin","123456", "escom");
     if ($mysqli->connect_errno) {
         echo "Fallo al conectar a MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     } else {

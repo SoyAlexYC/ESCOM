@@ -22,7 +22,7 @@
           document.getElementById("jaja").innerHTML = this.responseText; const myCollection = document.getElementsByName("prof");
           const b = myCollection.length;
           for (let i = 0; i < b; i++) {
-            myCollection[i].addEventListener("click", function () { window.location.href = "/web4/read/profesor/profesor.php?id=" + myCollection[i].id; });
+            myCollection[i].addEventListener("click", function () { window.location.href = "/ESCOM/ADMIN/read/profesor/profesor.php?id=" + myCollection[i].id; });
           }
         }
         xmlhttp.open("GET", "materia.php?materia=" + param);

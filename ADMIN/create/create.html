@@ -64,21 +64,21 @@
         </div>
         <script>
             var link = document.getElementById("Profe");
-            link.addEventListener("click", function () { window.location.href = "/web4/create/profesor/profesor.html" });
+            link.addEventListener("click", function () { window.location.href = "/ESCOM/ADMIN/create/profesor/profesor.html" });
             link = document.getElementById("Materia");
-            link.addEventListener("click", function () { window.location.href = "/web4/materia.html" });
+            link.addEventListener("click", function () { window.location.href = "/ESCOM/ADMIN/materia.html" });
             link = document.getElementById("Grupo");
-            link.addEventListener("click", function () { window.location.href = "/web4/grupo.html" });
+            link.addEventListener("click", function () { window.location.href = "/ESCOM/ADMIN/grupo.html" });
             link = document.getElementById("Clase");
-            link.addEventListener("click", function () { window.location.href = "/web4/materia.html" });
+            link.addEventListener("click", function () { window.location.href = "/ESCOM/ADMIN/materia.html" });
             link = document.getElementById("Espacio");
-            link.addEventListener("click", function () { window.location.href = "/web4/grupo.html" });
+            link.addEventListener("click", function () { window.location.href = "/ESCOM/ADMIN/grupo.html" });
             link = document.getElementById("Horario");
-            link.addEventListener("click", function () { window.location.href = "/web4/materia.html" });
+            link.addEventListener("click", function () { window.location.href = "/ESCOM/ADMIN/materia.html" });
             link = document.getElementById("Salon");
-            link.addEventListener("click", function () { window.location.href = "/web4/grupo.html" });
+            link.addEventListener("click", function () { window.location.href = "/ESCOM/ADMIN/grupo.html" });
             link = document.getElementById("Curso");
-            link.addEventListener("click", function () { window.location.href = "/web4/create/curso/curso.html" });
+            link.addEventListener("click", function () { window.location.href = "/ESCOM/ADMIN/create/curso/curso.html" });
 
             function busq(str) {
                 if (str.length == 0) {
@@ -90,7 +90,7 @@
                         document.getElementById("jaja").innerHTML = this.responseText; const myCollection = document.getElementsByName("prof");
                         const b = myCollection.length;
                         for (let i = 0; i < b; i++) {
-                            myCollection[i].addEventListener("click", function () { window.location.href = "/web4/profesor/profesor.php?id=" + myCollection[i].id; });
+                            myCollection[i].addEventListener("click", function () { window.location.href = "/ESCOM/ADMIN/profesor/profesor.php?id=" + myCollection[i].id; });
                         }
                     }
                     xmlhttp.open("GET", "search2.php?search=" + str);

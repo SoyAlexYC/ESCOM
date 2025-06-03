@@ -1,0 +1,64 @@
+just validate
+
+
+<div class="text-light bg-dark  " style="height: 100vh; width: 100vw">
+        <form id="busqueda" method="GET" class="needs-validation">
+            <div class="col-md-4">
+                <label for="validationCustom01" class="form-label">Ingresa tu profesor...</label>
+                <input type="text" name="search" class="form-control" id="validationCustom01" onkeyup="busq(this.value)"
+                    required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <div id="jaja" class="col-12 ">Ingresa tu profesor
+            </div>
+        </form>
+        <div class="container p-3 my-3">
+            <div>
+                <div id="Profe" name="prof"
+                    class="fs-5 d-flex justify-content-between rounded-pill border border-primary">
+                    <div>Por profe</div>
+                    
+                </div>
+            </div>
+            <div>
+                <div id="Materia" name="prof"
+                    class="fs-5 d-flex justify-content-between rounded-pill border border-primary">
+                    <div>por materia</div>
+                    
+                </div>
+            </div>
+            <div>
+                <div id="Grupo" name="prof"
+                    class="fs-5 d-flex justify-content-between rounded-pill border border-primary">
+                    <div>por grupo</div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    $(document).ready(()=>{
+        onSucces((e)=>{
+            console.log($("#formlogin").serialize());
+            $.ajax({
+                url:"/php/index_AX",
+                method: "post",
+                data:$("#fomlogin").serialize(),
+                cache: false,
+                succes:(respAX)=>{
+                    console.log(respAX)
+                }
+            });
+        })
+    })
+
+
+    <php
+
+    $respAX = [];
+    $respAX[dato]
+?>
