@@ -14,13 +14,13 @@
     <div class="text-light bg-dark " style="height: 100vh; width: 100vw">
         <form id="busqueda" class="row g-3">
             <div>
-                <select id="jaja" name="materia" class="form-select" aria-label="Default select example">
-                    <option selected>Selecciona la materia del curso</option>
+                <select id="jaja" name="curso" class="form-select" aria-label="Default select example">
+                    <option selected>Selecciona el curso al que pertenece la clase</option>
                 </select>
             </div>
             <div>
-                <select id="jaja2" name="grupo" class="form-select" aria-label="Default select example">
-                    <option selected>Selecciona el grupo del curso</option>
+                <select id="jaja2" name="salon" class="form-select" aria-label="Default select example">
+                    <option selected>Selecciona el salón de la clase</option>
                 </select>
             </div>
             <div class="col-12">
@@ -32,7 +32,7 @@
         var enviar = function (event) {
             event.preventDefault();
             $.ajax({
-                url: "curso.php",
+                url: "clase.php",
                 type: "post",
                 data: $("#busqueda").serialize(),
                 cache: false,
@@ -51,7 +51,7 @@
         form.addEventListener("submit", enviar, true);
 
         $.ajax({
-            url: "curso_mat.php",
+            url: "clase_curso.php",
             method: "post",
             cache: false,
             success: (respAX) => {
@@ -59,8 +59,8 @@
                 let element = document.getElementById("jaja");
                 for (let i = 0; i < objAX.data.length; i++) {
                     let para = document.createElement("option");
-                    para.setAttribute("name", objAX.data[i].NombMateria);
-                    let node = document.createTextNode(objAX.data[i].NombMateria);
+                    para.setAttribute("name", objAX.data[i].NombreGru + " " + objAX.data[i].NombMateria);
+                    let node = document.createTextNode(objAX.data[i].NombreGru + " " + objAX.data[i].NombMateria);
                     para.appendChild(node);
                     element.appendChild(para);
                 }
@@ -68,7 +68,7 @@
         });
 
         $.ajax({
-            url: "curso_gr.php",
+            url: "clase_salon.php",
             method: "post",
             cache: false,
             success: (respAX) => {
@@ -76,8 +76,8 @@
                 let element = document.getElementById("jaja2");
                 for (let i = 0; i < objAX.data.length; i++) {
                     let para = document.createElement("option");
-                    para.setAttribute("name", objAX.data[i].NombreGru);
-                    let node = document.createTextNode(objAX.data[i].NombreGru);
+                    para.setAttribute("name", objAX.data[i].NomSalon);
+                    let node = document.createTextNode(objAX.data[i].NomSalon);
                     para.appendChild(node);
                     element.appendChild(para);
                 }
@@ -86,9 +86,6 @@
                 alert("An error occured: " + xhr.status + " " + xhr.statusText);
             }
         });
-
-
-
     </script>
 </body>
 

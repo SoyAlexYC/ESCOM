@@ -13,7 +13,7 @@ if ($mysqli->connect_errno) {
 } else {
     $grupo1 = $mysqli->query("SELECT IDGrupo FROM grupo WHERE NombreGru='$grupo'");
     $materia1 = $mysqli->query("SELECT IDMateria FROM materia WHERE NombMateria='$materia'"); //muestras todos y ps ya ves si seleccionas uno xdd.
-    if ($grupo1->num_rows == 0 || $grupo1->num_rows == 0) {
+    if ($grupo1->num_rows == 0 || $materia1->num_rows == 0) {
         $respAX["code"] = 0;
         $respAX["log"] = date("Y-m-d H:i:s");
         $respAX["data"] = "Materia y/o grupo no válido(s)";
