@@ -14,7 +14,10 @@ $R2= mysqli_fetch_assoc($resultado2);
 
 if($uname == $R1["boleta"] && $pwd == $R2["contraseña"] ){
     echo("Estas dentro JI JI JI JA");
-    //header("Location: /ESCOM/HTML/SEARCH.html");
+    session_start();
+$_SESSION["usuario"] = $R1["boleta"];
+
+    header("Location: /ESCOM/HTML/SEARCH.php");
 }
 else
 {
@@ -23,6 +26,6 @@ else
     //exit();
     
 }}else{
-  echo("ERROR");
+  echo("Botate a la verga");
 }
 ?>

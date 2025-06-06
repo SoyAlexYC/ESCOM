@@ -1,56 +1,64 @@
-<html>
+<?php
+  session_start();
+  if($_SESSION){
+    echo $_SESSION["usuario"];
+  }else{
+    header("Location: /ESCOM/HTML/LOGIN.php");
+  }
+?>
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>MAIN MENU</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+  <script src="validationform.js"> </script>
+</head>
 
 <body>
-  <?php
-  $search = $_GET["search"];
-  //manera 1 de conectar 
-  $fr = explode(" ", $search);
-  $n = count($fr);
+  <div class="text-light bg-dark " style="height: 100vh; width: 100vw">
+    <form id="busqueda" method="GET" class="needs-validation">
+      <div class="col-md-4">
+        <label for="validationCustom01" class="form-label">Ingresa tu profesor...</label>
+        <input type="text" name="search" class="form-control" id="validationCustom01" onkeyup="busq(this.value)"
+          required>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+      </div>
+      <div id="jaja" class="col-12 ">Ingresa tu profesor
+      </div>
+      <div><a href='cerrarses.php'>cierra sesion</a></div>
+    </form>
+  </div>
+  <script>
+    var prev_def = function (event) {
+      event.preventDefault();
+    };
+    var form = document.getElementById("busqueda");
+    form.addEventListener("submit", prev_def, true);
 
-  if ($n >= 5) {
-    echo 'No se encontraron resultados';
-  } else {
-    $mysqli = new mysqli("localhost", "ale", "ola", "escom");
-    if ($mysqli->connect_errno) {
-      echo "Fallo al conectar a MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-    } else {
-      if ($n >= 1) {
-        $fr1 = $fr[0];
-        $nombre = $mysqli->query("SELECT * FROM profesor WHERE nombrepro LIKE '$fr1%' or paternopro LIKE '$fr1%' or maternopro LIKE '$fr1%'");
-      }
-      if ($n >= 2) {
-        $fr2 = $fr[1];
-        $nombre = $mysqli->query("SELECT * FROM profesor WHERE (((nombrepro LIKE '$fr1%') or (paternopro LIKE '$fr1%') or (maternopro LIKE '$fr1%')) and ((nombrepro LIKE '$fr2%') or (paternopro LIKE '$fr2%') or (maternopro LIKE '$fr2%')))");
-      }
-      if ($n >= 3) {
-        $fr3 = $fr[2];
-        $nombre = $mysqli->query("SELECT * FROM profesor WHERE (((nombrepro LIKE '$fr1%') or (paternopro LIKE '$fr1%') or (maternopro LIKE '$fr1%')) and ((nombrepro LIKE '$fr2%') or (paternopro LIKE '$fr2%') or (maternopro LIKE '$fr2%')) and ((nombrepro LIKE '$fr3%') or (paternopro LIKE '$fr3%') or (maternopro LIKE '$fr3%')))");
-      }
-      if ($n >= 4) {
-        $fr4 = $fr[3];
-        $nombre = $mysqli->query("SELECT * FROM profesor WHERE (((nombrepro LIKE '$fr1%') or (paternopro LIKE '$fr1%') or (maternopro LIKE '$fr1%')) and ((nombrepro LIKE '$fr2%') or (paternopro LIKE '$fr2%') or (maternopro LIKE '$fr2%')) and ((nombrepro LIKE '$fr3%') or (paternopro LIKE '$fr3%') or (maternopro LIKE '$fr3%')) and ((nombrepro LIKE '$fr4%') or (paternopro LIKE '$fr4%') or (maternopro LIKE '$fr4%')))");
-      }
 
-      if ($nombre->num_rows == 0) {
-        echo 'No se encontraron resultados';
+    function busq(str) {
+      if (str.length == 0) {
+        document.getElementById("jaja").innerHTML = "Ingresa tu profesor";
+        return;
       } else {
-        for ($num_fila = $nombre->num_rows - 1; $num_fila >= 0; $num_fila--) {
-          $nombre->data_seek($num_fila);
-          $fila = $nombre->fetch_assoc();
-          echo '<div id="' . $fila['IDProfesor'] .'" name="prof" class="fs-5 d-flex justify-content-between rounded-pill border border-primary">' . '<div>' ." nombre = " . $fila['NombrePro'] . '</div>' . '<div>'. " Apellido P = " . $fila['PaternoPro'] . '</div>' . '<div>'. " Apell. M. = " . $fila['MaternoPro'] . '</div>' . '</div>'. '<br>';
+        const xmlhttp = new XMLHttpRequest();
+        xmlhttp.onload = function () {
+          document.getElementById("jaja").innerHTML = this.responseText; const myCollection = document.getElementsByName("prof");
+          const b = myCollection.length;
+          for (let i = 0; i < b; i++) {
+            myCollection[i].addEventListener("click", function () { window.location.href = "/web4/profesor/profesor.php?id=" + myCollection[i].id; });
+          }
         }
+        xmlhttp.open("GET", "search_priv.php?search=" + str);
+        xmlhttp.send();
       }
     }
-
-
-
-
-
-  }
-
-
-
-  ?>
+  </script>
 </body>
 
 </html>
