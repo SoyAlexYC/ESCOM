@@ -1,5 +1,7 @@
 <?php 
-$conexion = mysqli_connect("localhost", "admin","123456", "escom");
+
+include 'configBD.php';
+
 $uname = $_POST["uname"];
 $pwd = $_POST["pswd"];
 $sql1 = "SELECT * from alumno where boleta = $uname";
