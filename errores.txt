@@ -1,0 +1,1 @@
+el db.sql tiene dos errores de coma, al meterlo al phpmyadmin, te dic donde estan 
