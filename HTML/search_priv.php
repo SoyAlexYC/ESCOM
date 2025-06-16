@@ -17,7 +17,7 @@
     echo 'No se encontraron resultados';
 
   } else {
-
+include 'configBD.php';
     $mysqli = new mysqli("localhost", "ale", "ola", "escom");
 
     if ($mysqli->connect_errno) {

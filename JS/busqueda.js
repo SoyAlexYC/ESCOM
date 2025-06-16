@@ -1,27 +1,24 @@
-$(document).ready(function() {
+function cargarDatos() {
   $.ajax({
     url: 'update.php',
-    type: 'GET',
+    type: 'POST',
     dataType: 'json',
-    cache:false,
-    success: function(data) {
-     
+    cache: false,
+    success: function(respAX) {
+      const $tablaPro = $('#tabla-pro').empty();
+      const $tablaMat = $('#tabla-Mat').empty();
+      const $tablaAlu = $('#tabla-Alu').empty();
 
-      const $tablaPro = $('#tabla-pro'); // tbody de la tabla
-      $tablaPro.empty(); 
-      const $tablaMat = $('#tabla-Mat'); // tbody de la tabla
-      $tablaMat.empty(); 
-      const $tablaAlu = $('#tabla-Alu'); // tbody de la tabla
-      $tablaAlu.empty(); 
+      let filasProfesor = "", filasMateria = "", filasAlumno = "";
 
-      data.prof.forEach(function(prof) {
-        const fila = `
-          <tr data-id="${prof.IDProfesor}">
-            <td>${prof.NombrePro}</td>
-            <td>${prof.PaternoPro}</td>
-            <td>${prof.MaternoPro}</td>
-            <td>${prof.Cubiculo || 'Sin cubículo'}</td>
-            <td>${prof.puesto || 'Sin puesto'}</td>
+      respAX.dataPro.forEach(element => {
+        filasProfesor += `
+          <tr data-id="${element.IDProfesor}">
+            <td>${element.NombrePro}</td>
+            <td>${element.PaternoPro}</td>
+            <td>${element.MaternoPro}</td>
+            <td>${element.Cubiculo || 'Sin cubículo'}</td>
+            <td>${element.puesto || 'Sin puesto'}</td>
             <td>
               <select class="campo-editable-select">
                 <option value="">-- Selecciona campo --</option>
@@ -36,91 +33,86 @@ $(document).ready(function() {
             <td><button class="btn btn-success btn-guardar" disabled>Guardar</button></td>
           </tr>
         `;
-        $tablaPro.append(fila);
       });
-// Cuando seleccionas el campo a editar
-      $(document).on('change', '.campo-editable-select', function () {
-        const $fila = $(this).closest('tr');
-        const campo = $(this).val();
+      $tablaPro.append(filasProfesor);
 
-        // Activar el input y botón solo si se seleccionó un campo
-        if (campo !== "") {
-          $fila.find('.nuevo-valor-input').prop('disabled', false).focus();
-          $fila.find('.btn-guardar').prop('disabled', false);
-        } else {
-          $fila.find('.nuevo-valor-input').prop('disabled', true);
-          $fila.find('.btn-guardar').prop('disabled', true);
-        }
-      });
-
-      // Guardar actualización
-      $(document).on('click', '.btn-guardar', function () {
-        const $fila = $(this).closest('tr');
-        const id = $fila.data('id');
-        const campo = $fila.find('.campo-editable-select').val();
-        const valor = $fila.find('.nuevo-valor-input').val();
-
-        if (campo === "" || valor.trim() === "") {
-          alert("Selecciona un campo y escribe un nuevo valor.");
-          return;
-        }
-
-        $.post('updProfesor.php', {
-          id: id,
-          campo: campo,
-          valor: valor
-        }, function (respuesta) {
-          alert("Resultado: " + respuesta);
-          location.reload(); // Opcional: recargar para ver cambios reflejados
-        });
-      });
-  //materias
-    data.mat.forEach(function(mat) {
-     const filaMat = `
+      respAX.dataMat.forEach(element => {
+        filasMateria += `
           <tr>
-            <td>${mat.NombMateria}</td>
+            <td>${element.NombMateria}</td>
             <td><a href="/ESCOM/ADMIN/read/read.HTML" class="btn btn-success">Editar</a></td>
           </tr>
         `;
-        $tablaMat.append(filaMat);
-    });
+      });
+      $tablaMat.append(filasMateria);
 
-    // Alumnos
-    data.alu.forEach(function(alu) {
-      const filaAlu = `
+      respAX.dataAlu.forEach(element => {
+        filasAlumno += `
           <tr>
-            <td>${alu.NombreAlu}</td>
-            <td>${alu.PaternoAlu}</td>
-            <td>${alu.MaternoAlu}</td>
-            <td>${alu.boleta}</td> 
-            <td>${alu.contraseña}</td> 
+            <td>${element.NombreAlu}</td>
+            <td>${element.PaternoAlu}</td>
+            <td>${element.MaternoAlu}</td>
+            <td>${element.boleta}</td> 
+            <td>${element.contraseña}</td> 
             <td><a href="/ESCOM/ADMIN/read/read.HTML" class="btn btn-success">Editar</a></td>
           </tr>
         `;
-        $tablaAlu.append(filaAlu);
-    });
-    ////modificacion de los datos 
-$('.campo-editable').change(function () {
-  const IDProfesor = $(this).data('IDProfesor');
-  const campo = $(this).data('campo');
-  const valor = $(this).val();
-
-  $.post('actualizar_profesor.php', {
-    id: IDProfesor,
-    campo: campo,
-    valor: valor
-  }, function (respuesta) {
-    console.log(respuesta);
-  });
-});
-
+      });
+      $tablaAlu.append(filasAlumno);
     },
     error: function(xhr, status, error) {
       console.error("Error en AJAX:", status, error);
+      alert("Error al cargar los datos.");
     }
   });
+}
 
+function registrarEventos() {
+  // Activar input y botón si se selecciona un campo
+  $(document).on('change', '.campo-editable-select', function () {
+    const $fila = $(this).closest('tr');
+    const campo = $(this).val();
+    $fila.find('.nuevo-valor-input').prop('disabled', campo === "");
+    $fila.find('.btn-guardar').prop('disabled', campo === "");
+    if (campo !== "") $fila.find('.nuevo-valor-input').focus();
+  });
 
+  // Guardar cambios
+  $(document).on('click', '.btn-guardar', function () {
+    const $fila = $(this).closest('tr');
+    const id = $fila.data('id');
+    const campo = $fila.find('.campo-editable-select').val();
+    const valor = $fila.find('.nuevo-valor-input').val();
+
+    if (!campo || valor.trim() === "") {
+      alert("Selecciona un campo y escribe un nuevo valor.");
+      return;
+    }
+
+    $.ajax({
+      url: 'updProfesor.php',
+      type: 'POST',
+      data: { id, campo, valor },
+      success: function(respuesta) {
+        try {
+          // Si el PHP responde un JSON, lo parseamos
+          const json = JSON.parse(respuesta);
+          alert(json.msg || "Actualización exitosa");
+        } catch (e) {
+          // Si no es JSON, asumimos texto plano
+          alert(respuesta);
+        }
+        cargarDatos(); // Recargar tabla después de actualizar
+      },
+      error: function(xhr, status, error) {
+        alert("Error al actualizar el registro.");
+        console.error("AJAX error:", status, error);
+      }
+    });
+  });
+}
+
+$(document).ready(function () {
+  cargarDatos();
+  registrarEventos();
 });
-    
-

@@ -1,5 +1,9 @@
 <?php
-include 'configBD.php';
+include '../../HTML/configBD.php';
+header('Content-Type: application/json');
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 if (!$conexion) {
   http_response_code(500);
@@ -7,51 +11,51 @@ if (!$conexion) {
   exit;
 }
 
-
-
-
-
 // Consulta 1: datos del profesor
-$sql = "SELECT * FROM profesor";
-$result = $conexion->query($sql);
+$sqlPro = "SELECT * FROM profesor";
+$resultPro = mysqli_query($conexion, $sqlPro);
 
 // Consulta 2: datos de la materia
 $sqlMat = "SELECT * FROM materia";
-$resultMat = $conexion->query($sqlMat);
+$resultMat = mysqli_query($conexion, $sqlMat);
 
 // Consulta 3: datos del alumno
 $sqlAlu = "SELECT * FROM alumno";
-$resultAlu = $conexion->query($sqlAlu);
+$resultAlu = mysqli_query($conexion, $sqlAlu);
 
-$respuesta = [
-  'prof' => [],
-  'mat' => [],
-  'alu' => []
-];
+$respAX[];
+$respAX["code"] = 1;
+$respAX["log"] = date("Y-m-d H:i:s");
+
+$dataProf=[];
+$dataMat=[];
+$dataAlu=[];
 
 // Guardar datos de profesores
-while ($row = $result->fetch_assoc()) {
-  $respuesta['prof'][] = [
-    'IDProfesor' => $row['IDProfesor'],
-    'NombrePro' => $row['NombrePro'],
-    'PaternoPro' => $row['PaternoPro'],
-    'MaternoPro' => $row['MaternoPro'],
-    'Cubiculo' => $row['Cubiculo'],
-    'puesto' => $row['puesto']
+while ($rowPro = $resultPro->fetch_assoc()) {
+  $dataProf[] = [
+    'IDProfesor' => $rowPro['IDProfesor'],
+    'NombrePro' => $rowPro['NombrePro'],
+    'PaternoPro' => $rowPro['PaternoPro'],
+    'MaternoPro' => $rowPro['MaternoPro'],
+    'Cubiculo' => $rowPro['Cubiculo'],
+    'puesto' => $rowPro['puesto']
   ];
 }
 
+
 // Guardar datos de materias
 while ($rowMat = $resultMat->fetch_assoc()) {
-  $respuesta['mat'][] = [
+  $dataMat[] = [
     'NombMateria' => $rowMat['NombMateria']
     
   ];
 }
 
+
 // Guardar datos de alumnos
 while ($rowAlu = $resultAlu->fetch_assoc()) {
-  $respuesta['alu'][] = [
+  $dataAlu[] = [
     'NombreAlu' => $rowAlu['NombreAlu'],
     'PaternoAlu' => $rowAlu['PaternoAlu'],
     'MaternoAlu' => $rowAlu['MaternoAlu'],
@@ -59,9 +63,11 @@ while ($rowAlu = $resultAlu->fetch_assoc()) {
     'contraseña' => $rowAlu['contraseña']
   ];
 }
+$respAX["dataPro"] = $dataProf;
+$respAX["dataMat"] = $dataMat;
+$respAX["dataAlu"] = $dataMat;
 
-header('Content-Type: application/json');
-echo json_encode($respuesta);
+echo json_encode($respAX);
 
 $conexion->close();
 
