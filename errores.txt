@@ -1,1 +1,3 @@
 el db.sql tiene dos errores de coma, al meterlo al phpmyadmin, te dic donde estan 
+
+actualizacion 15/06: la tabla alumno estaba mal construida, ya se arreglaron los de coma.

@@ -43,6 +43,11 @@
                     Looks good!
                 </div>
             </div>
+            <div>
+                <select id="jaja" name="aca" class="form-select" aria-label="Default select example">
+                    <option selected>Selecciona la academia del profesor</option>
+                </select>
+            </div>
             <div class="col-12">
                 <button class="btn btn-primary" type="submit">Submit form</button>
             </div>
@@ -66,11 +71,42 @@
                         else {
                             alert("NO se logró, intente de nuevo. " + objAX.data);
                         }
+                    },
+                    error: (respAX) => {
+                        let objAX = JSON.parse(respAX);
+                        console.error("Error:", objAX.data);
                     }
                 });
             };
             var form = document.getElementById("busqueda");
             form.addEventListener("submit", agregar, true);
+
+            $.ajax({
+                url: "profe_aca.php",
+                method: "post",
+                cache: false,
+                success: (respAX) => {
+                    let objAX = JSON.parse(respAX);
+                    if (objAX.code == 1) {
+                        let element = document.getElementById("jaja");
+                        for (let i = 0; i < objAX.data.length; i++) {
+                            let para = document.createElement("option");
+                            para.setAttribute("name", objAX.data[i].IDAcademia);
+                            let node = document.createTextNode(objAX.data[i].NomAcademia);
+                            para.appendChild(node);
+                            element.appendChild(para);
+                        }
+                    }
+                    else{
+                        let element = document.getElementById("jaja");
+                            let para = document.createElement("option");
+                            para.setAttribute("name", "none");
+                            let node = document.createTextNode("No fue posible obtener las academias");
+                            para.appendChild(node);
+                            element.appendChild(para);
+                    }
+                }
+            });
         </script>
 </body>
 

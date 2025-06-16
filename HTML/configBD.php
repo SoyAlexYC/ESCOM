@@ -6,7 +6,7 @@
 $servidorBD = "localhost";
 $usuarioBD ="admin";
 $contraBD ="123456";
-$nombBD ="escom";
+$nombBD ="prodb";
 
 $conexion = mysqli_connect($servidorBD,$usuarioBD,$contraBD,$nombBD);
 if(mysqli_connect_error()){

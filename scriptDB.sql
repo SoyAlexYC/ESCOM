@@ -1,6 +1,10 @@
 create table ALUMNO(
     IDAlumno int not null AUTO_INCREMENT primary key,
-    NomSemestre varchar(15) not null,
+    NombreAlu varchar(15) not null,
+    PaternoAlu varchar(15) not null,
+    MaternoAlu varchar(15) null,
+    Contrasena varchar(15) not null,
+    Boleta varchar(11) not null,
     Estatus int not null
 );
 create table SEMESTRE_CORRIENTE(
@@ -30,7 +34,7 @@ create table TIPO(
 create table ACADEMIA(
     IDAcademia int not null AUTO_INCREMENT primary key,
     NomAcademia varchar(10) not null,
-    Estatus int not null,
+    Estatus int not null
     );
 create table DIA(
     IDDia int not null AUTO_INCREMENT primary key,

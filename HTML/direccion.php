@@ -4,8 +4,8 @@ include 'configBD.php';
 
 $uname = $_POST["uname"];
 $pwd = $_POST["pswd"];
-$sql1 = "SELECT * from alumno where boleta = $uname";
-$sql2 = "SELECT * from alumno where contraseña = '$pwd'";
+$sql1 = "SELECT * from alumno where Boleta = $uname";
+$sql2 = "SELECT * from alumno where Contrasena = '$pwd'";
 $resultado1 = mysqli_query($conexion, $sql1);
 $resultado2 = mysqli_query($conexion, $sql2);
 if(($resultado1->num_rows != 0) && ($resultado2->num_rows != 0)){
@@ -14,10 +14,10 @@ $R2= mysqli_fetch_assoc($resultado2);
 
 
 
-if($uname == $R1["boleta"] && $pwd == $R2["contraseña"] ){
+if($uname == $R1["Boleta"] && $pwd == $R2["Contrasena"] ){
     echo("Estas dentro JI JI JI JA");
     session_start();
-$_SESSION["usuario"] = $R1["boleta"];
+$_SESSION["usuario"] = $R1["Boleta"];
 
     header("Location: /ESCOM/HTML/SEARCH.php");
 }
