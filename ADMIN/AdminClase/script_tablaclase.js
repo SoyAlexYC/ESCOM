@@ -326,7 +326,7 @@ let dataTableOptions = {
     }
 };
 
-function eliminarProfe(id) {
+function eliminarClase(id) {
     Swal.fire({
         title: "¿Esta Seguro?",
         text: "¡Esta accion es irreversible!",
@@ -340,7 +340,7 @@ function eliminarProfe(id) {
             $.ajax({
                 url: "./eliminarregistro.php",
                 method: "post",
-                data: { IDProfesor: id },
+                data: { IDClase: id },
                 cache: false,
                 success: (respAX) => {
                     console.log(respAX);
@@ -365,17 +365,17 @@ const initDataTable = async () => {
         //Destruimos tabla
         dataTable.destroy();
     }
-    await listarProfes();
+    await listarClases();
     dataTable = $('#example').DataTable(dataTableOptions);
     dataTableIsInitialized = true;
 }
 
-const listarProfes = async () => {
+const listarClases = async () => {
 
     try {
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: "getprofes.php",
+                url: "getclases.php",
                 method: "post",
                 cache: "false",
                 success: (respAX) => {
@@ -389,26 +389,24 @@ const listarProfes = async () => {
                             content +=
                                 `<tr>
                             <td> ${index + 1} </td>
-                            <td> ${element.IDProfesor} </td>
+                            <td> ${element.IDClase} </td>
                             <td> ${element.Estatus} </td>
-                            <td> ${element.NombrePro} </td>
-                            <td> ${element.PaternoPro} </td>
-                            <td> ${element.MaternoPro} </td>
-                            <td> ${element.Cubiculo} </td>
-                            <td> ${element.IdAcademia} </td>
+                            <td> ${element.NombClase} </td>
+                            <td> ${element.IdCurso} </td>
+                            <td> ${element.IdSalon} </td>
                             <td>
                                 <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></button>
-                                <button class="btn btn-sm btn-danger" onclick="eliminarProfe(${element.IDProfesor})"><i class="fa-solid fa-trash-can"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="eliminarClase(${element.IDClase})"><i class="fa-solid fa-trash-can"></i></button>
                             </td>
                         </tr>`
                         }
                     });
 
-                    tabla_profes.innerHTML = content;
+                    tabla_clases.innerHTML = content;
                     resolve();
                 },
                 error: (err) => {
-                    console.error("Error al cargar profesores", err);
+                    console.error("Error al cargar clases", err);
                     reject(err);
                 }
             });
