@@ -9,15 +9,12 @@ create table ALUMNO(
 );
 create table SEMESTRE_CORRIENTE(
     IDSemestre int not null AUTO_INCREMENT primary key,
-    NombreAlu varchar(15) not null,
-    PaternoAlu varchar(15) not null,
-    MaternoAlu varchar(15) null,
-    Contrasena varchar(15) not null,
+    NomSemestre varchar(15) not null,
     Estatus int not null
 );
 create table MATERIA(
     IDMateria int not null AUTO_INCREMENT primary KEY,
-    NombMateria varchar(20) not null,
+    NombMateria varchar(30) not null,
     HorasTeo varchar(15) not null,
     HorasLab varchar(15) not null,
     Estatus int not null
@@ -66,7 +63,7 @@ create table SALON(
     );   
 create table HORARIO(
     IDHorario int not null AUTO_INCREMENT primary key,
-    Semestre int not null,
+    Semestre varchar(15) not null,
     Estatus int not null,
     IdProfesor int not null,
     CONSTRAINT FKHorarioProfesor FOREIGN KEY(IdProfesor) 
@@ -75,7 +72,6 @@ create table HORARIO(
     
 create table CURSO(
     IDCurso int not null AUTO_INCREMENT primary key,
-    SemestrCorriente int not null,
     Estatus int not null,
     IdGrupo int not null,
     IdMateria int not null,

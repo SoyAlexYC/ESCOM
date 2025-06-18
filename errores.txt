@@ -1,3 +1,4 @@
 el db.sql tiene dos errores de coma, al meterlo al phpmyadmin, te dic donde estan 
 
 actualizacion 15/06: la tabla alumno estaba mal construida, ya se arreglaron los de coma.
+actualizacion 17/06: la tabla semestre tenia campos de mas. hay campos de otras tablas (como nombre de materia) que deberan ser de mayor num de caracteres.

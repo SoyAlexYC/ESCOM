@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eliminar Grupo</title>
+  <!--BOOTSTRAP-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!--FONTAWESOME-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <!--DATA TABLE-->
+  <link href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap5.min.css" rel="stylesheet" integrity="sha384-e4/pU/7fdyaPKtXkqAgHNgoYAb2LNmChhpSuSp8o6saYtS2sP+JZsu8Wy/7mGV7w" crossorigin="anonymous">
+  <link href="https://cdn.datatables.net/autofill/2.7.0/css/autoFill.bootstrap5.min.css" rel="stylesheet" integrity="sha384-G1dqrS0RLl+qnWuET1U0A6JSB6ybTRgzjeoJHQHf3qXKTHdbBj4BQkL0+uIG62mX" crossorigin="anonymous">
+  <link href="https://cdn.datatables.net/buttons/3.2.3/css/buttons.bootstrap5.min.css" rel="stylesheet" integrity="sha384-DJhypeLg79qWALC844KORuTtaJcH45J+36wNgzj4d1Kv1vt2PtRuV2eVmdkVmf/U" crossorigin="anonymous">
+  
+  <!--MIS CSS
+  <link href="deleteclase.css" rel="stylesheet">-->
+</head>
+<body>
+  <header>
+
+    <div class="container-fluid">
+        <div class="row" style="background-color: #10312B;">
+            <!--Banner de arriba verde con logo del gobierno-->
+            <div class="col-6 col-lg-4 mt-1 mb-1 d-flex justify-content-center align-items-center p-0"><a href="https://www.gob.mx/"><img class="img-fluid float-end" src=".//IMG/gobmxlogo.png" alt="LOGO_GOBIERNO"></a></div>
+            <div class="col-6 col-lg-2 d-flex justify-content-center align-items-center p-0"><a href="https://mivacuna.salud.gob.mx/" style="font-size: 12px; color: white; text-decoration: none;">REGISTRO PARA VACUNACIÓN</a></div>
+            <div class="col-5 col-lg-2 d-flex justify-content-center align-items-center p-0"><a href="https://coronavirus.gob.mx/" style="font-size: 12px; color: white; text-decoration: none;">INFORMACIÓN SOBRE COVID-19</a></div>
+            <div class="col-2 col-lg-1 d-flex justify-content-center align-items-center p-0"><a href="https://www.gob.mx/tramites" style="font-size: 12px; color: white; text-decoration: none;">TRÁMITES</a></div>
+            <div class="col-2 col-lg-1 d-flex justify-content-center align-items-center p-0"><a href="https://www.gob.mx/gobierno" style="font-size: 12px; color: white; text-decoration: none;">GOBIERNO</a></div>
+            <div class="col-2 col-lg-1 d-flex justify-content-center align-items-center p-0"><a href="https://www.gob.mx/segob/en" style="font-size: 12px; color: white; text-decoration: none;">ENGLISH</a></div>
+            <div class="col-1 col-lg-1 d-flex justify-content-start align-items-center p-0"><a href="https://www.gob.mx/busqueda" style="font-size: 12px; color: white; text-decoration: none;"><i class="fa-solid fa-magnifying-glass"></i></a></div>
+
+        </div>
+    </div>
+
+  </header>
+  <main>
+
+    <div class="container">
+        <div class="row">
+            <h1>!BIENVENIDO ADMIN¡ </h1>
+        </div>
+    </div>
+
+    <div class="container py-4">
+        <div class="row">
+          <h2 class="mb-4 text-center">Grupos</h2>
+        </div>
+        
+        <div class="row">
+          <table id="example" class="table table-striped">
+            <caption>
+              Tabla de Grupos
+            </caption>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>ID Grupo</th>
+                    <th>Estatus</th>
+                    <th>Nombre</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody id="tabla_grupos">
+                
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>#</th>
+                    <th>ID Salon</th>
+                    <th>Estatus</th>
+                    <th>Nombre</th>
+                    <th>Opciones</th>
+                </tr>
+                <tr id="agregar_change">
+                    <td><button class="btn btn-sm btn-success" id="create"><i class="fa-solid fa-square-plus"></i></button></td>
+                    <td>Añadir</td>
+                    <td id="agr_status"></td>
+                    <td name="quitable"></td>
+                    <td name="quitable"></td>
+                </tr>
+            </tfoot>
+          </table>
+        </div>
+    </div>
+
+    
+
+  </main>
+  <footer>
+
+  </footer>
+
+  <!--JQUERY-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <!--MIS SCRIPTS-->
+  <script src="script_tablagrupo.js"></script>
+
+  <!--BOOTSTRAP-->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!--SWEET ALERT 2-->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+  <!--DATA TABLE-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha384-+mbV2IY1Zk/X1p/nWllGySJSUN8uMs+gUAN10Or95UBH0fpj6GfKgPmgC5EXieXG" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js" integrity="sha384-VFQrHzqBh5qiJIU0uGU5CIW3+OWpdGGJM9LBnGbuIH2mkICcFZ7lPd/AAtI7SNf7" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js" integrity="sha384-/RlQG9uf0M2vcTw3CX7fbqgbj/h8wKxw7C3zu9/GxcBPRKOEcESxaxufwRXqzq6n" crossorigin="anonymous"></script>
+  <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js" integrity="sha384-RZEqG156bBQSxYY9lwjUz/nKVkqYj/QNK9dEjjyJ/EVTO7ndWwk6ZWEkvaKdRm/U" crossorigin="anonymous"></script>
+  <script src="https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap5.min.js" integrity="sha384-G85lmdZCo2WkHaZ8U1ZceHekzKcg37sFrs4St2+u/r2UtfvSDQmQrkMsEx4Cgv/W" crossorigin="anonymous"></script>
+  <script src="https://cdn.datatables.net/autofill/2.7.0/js/dataTables.autoFill.min.js" integrity="sha384-4ExRAjt8e0JM0VUvaS+tav0eS4hkbepBLqygE2qk9poZZmC+s7Da+dp8Wzl3Nt6Z" crossorigin="anonymous"></script>
+  <script src="https://cdn.datatables.net/autofill/2.7.0/js/autoFill.bootstrap5.min.js" integrity="sha384-eJTyWdE/ertY/uPWJCMI5AQkuH2WX6kCJRv9yhwNzkmNh1+5X8VMEfUy9X/XANDj" crossorigin="anonymous"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.3/js/dataTables.buttons.min.js" integrity="sha384-zlMvVlfnPFKXDpBlp4qbwVDBLGTxbedBY2ZetEqwXrfWm+DHPvVJ1ZX7xQIBn4bU" crossorigin="anonymous"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.3/js/buttons.bootstrap5.min.js" integrity="sha384-BdedgzbgcQH1hGtNWLD56fSa7LYUCzyRMuDzgr5+9etd1/W7eT0kHDrsADMmx60k" crossorigin="anonymous"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.3/js/buttons.colVis.min.js" integrity="sha384-v0wzF6NECWiQyIain/Wacl6wEYr6NDJRus6qpckumPIngNI9Zo0sDMon5lBh9Np1" crossorigin="anonymous"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.3/js/buttons.html5.min.js" integrity="sha384-+E6fb8f66UPOVDHKlEc1cfguF7DOTQQ70LNUnlbtywZiyoyQWqtrMjfTnWyBlN/Y" crossorigin="anonymous"></script>
+  <script src="https://cdn.datatables.net/buttons/3.2.3/js/buttons.print.min.js" integrity="sha384-FvTRywo5HrkPlBKFrm2tT8aKxIcI/VU819roC/K/8UrVwrl4XsF3RKRKiCAKWNly" crossorigin="anonymous"></script>
+</body>
+</html>

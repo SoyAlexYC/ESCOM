@@ -1,0 +1,7 @@
+body {
+    background-image: url('./IMG/HD-wallpaper-polygon-3d-abstract-art-blue-digital-white.jpg');
+    background-size: cover;           /* Cubre toda la pantalla */
+    background-position: center;
+    background-attachment: fixed;
+    image-rendering: auto; 
+  }
