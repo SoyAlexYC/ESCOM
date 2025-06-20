@@ -383,7 +383,7 @@ const listarClases = async ()=>{
                 success:(respAX)=>{
                 let objAX_clases = JSON.parse(respAX);
                 let clases = objAX_clases.data;
-                console.log(clases);
+                //console.log(clases);
 
                 let content = ``;
 

@@ -9,7 +9,7 @@ if (!$conexion) {
     echo json_encode($respAX);
     exit;
 }
-$sql1 = "SELECT * from academia";
+$sql1 = "SELECT * from grupo";
 $resultado1 = mysqli_query($conexion, $sql1);
 $respAX = [];
 if ($resultado1->num_rows != 0) {

@@ -1,5 +1,5 @@
 <?php
-include "configBD.php";
+include 'configBD.php';
 
 date_default_timezone_set("America/Mexico_City");
 

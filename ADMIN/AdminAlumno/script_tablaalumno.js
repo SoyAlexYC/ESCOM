@@ -326,7 +326,7 @@ let dataTableOptions = {
     }
 };
 
-function eliminarProfe(id) {
+function eliminarAlumno(id) {
     Swal.fire({
         title: "¿Esta Seguro?",
         text: "¡Esta accion es irreversible!",
@@ -340,7 +340,7 @@ function eliminarProfe(id) {
             $.ajax({
                 url: "./eliminarregistro.php",
                 method: "post",
-                data: { IDProfesor: id },
+                data: { IDAlumno: id },
                 cache: false,
                 success: (respAX) => {
                     console.log(respAX);
@@ -365,51 +365,51 @@ const initDataTable = async () => {
         //Destruimos tabla
         dataTable.destroy();
     }
-    await listarProfes();
+    await listarAlumnos();
     dataTable = $('#example').DataTable(dataTableOptions);
     dataTableIsInitialized = true;
 }
 
-const listarProfes = async () => {
+const listarAlumnos = async () => {
 
     try {
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: "getprofes.php",
+                url: "getalumnos.php",
                 method: "post",
                 cache: "false",
                 success: (respAX) => {
                     let objAX = JSON.parse(respAX);
-                    let profes = objAX.data;
-                    console.log(profes);
+                    let alumnos = objAX.data;
+                    console.log(alumnos);
 
                     let content = ``;
 
-                    profes.forEach((element, index) => {
+                    alumnos.forEach((element, index) => {
                         if (element.Estatus == 1) {
                             content +=
                                 `<tr>
                             <td> ${index + 1} </td>
-                            <td> ${element.IDProfesor} </td>
+                            <td> ${element.IDAlumno} </td>
                             <td> ${element.Estatus} </td>
-                            <td> ${element.NombrePro} </td>
-                            <td> ${element.PaternoPro} </td>
-                            <td> ${element.MaternoPro} </td>
-                            <td> ${element.Cubiculo} </td>
-                            <td> ${element.IdAcademia} </td>
+                            <td> ${element.NombreAlu} </td>
+                            <td> ${element.PaternoAlu} </td>
+                            <td> ${element.MaternoAlu} </td>
+                            <td> ${element.Boleta} </td>
+                            <td> ${element.Contrasena} </td>
                             <td>
                                 <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></button>
-                                <button class="btn btn-sm btn-danger" onclick="eliminarProfe(${element.IDProfesor})"><i class="fa-solid fa-trash-can"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="eliminarAlumno(${element.IDAlumno})"><i class="fa-solid fa-trash-can"></i></button>
                             </td>
                         </tr>`
                         }
                     });
 
-                    tabla_profes.innerHTML = content;
+                    tabla_alumnos.innerHTML = content;
                     resolve();
                 },
                 error: (err) => {
-                    console.error("Error al cargar profesores", err);
+                    console.error("Error al cargar alumnos", err);
                     reject(err);
                 }
             });
@@ -454,47 +454,20 @@ create.addEventListener('click', () => {
     apem.setAttribute("class", "fs-10 w-100 d-flex justify-content-between rounded-pill border border-black");
     col_apem.appendChild(apem);
     element.appendChild(col_apem);
-    let col_cub = document.createElement("td");
-    let cub = document.createElement("input");
-    cub.setAttribute("name", "cub");
-    cub.setAttribute("id", "cub");
-    cub.setAttribute("class", "fs-10 w-100 d-flex justify-content-between rounded-pill border border-black");
-    col_cub.appendChild(cub);
-    element.appendChild(col_cub);
-    let col_aca = document.createElement("td");
-    let aca = document.createElement("select");
-    aca.setAttribute("id", "aca");
-    aca.setAttribute("name", "aca");
-    aca.setAttribute("class", "form-select");
-    col_aca.appendChild(aca);
-    element.appendChild(col_aca);
-    $.ajax({
-        url: "profe_aca.php",
-        method: "post",
-        cache: false,
-        success: (respAX) => {
-            let objAX = JSON.parse(respAX);
-            if (objAX.code == 1) {
-                let element = document.getElementById("aca");
-                for (let i = 0; i < objAX.data.length; i++) {
-                    let para = document.createElement("option");
-                    para.setAttribute("name", objAX.data[i].IDAcademia);
-                    para.setAttribute("id", objAX.data[i].IDAcademia);
-                    let node = document.createTextNode(objAX.data[i].NomAcademia);
-                    para.appendChild(node);
-                    element.appendChild(para);
-                }
-            }
-            else {
-                let element = document.getElementById("aca");
-                let para = document.createElement("option");
-                para.setAttribute("name", "none");
-                let node = document.createTextNode("No fue posible obtener las academias");
-                para.appendChild(node);
-                element.appendChild(para);
-            }
-        }
-    });
+    let col_bol = document.createElement("td");
+    let bol = document.createElement("input");
+    bol.setAttribute("name", "bol");
+    bol.setAttribute("id", "bol");
+    bol.setAttribute("class", "fs-10 w-100 d-flex justify-content-between rounded-pill border border-black");
+    col_bol.appendChild(bol);
+    element.appendChild(col_bol);
+    let col_con = document.createElement("td");
+    let con = document.createElement("input");
+    con.setAttribute("name", "con");
+    con.setAttribute("id", "con");
+    con.setAttribute("class", "fs-10 w-100 d-flex justify-content-between rounded-pill border border-black");
+    col_con.appendChild(con);
+    element.appendChild(col_con);
 
     let col_boton = document.createElement("td");
     let bot = document.createElement("button");
@@ -506,14 +479,14 @@ create.addEventListener('click', () => {
         let nom = $('#nombre').val();
         let apepa = $('#apep').val();
         let apema = $('#apem').val();
-        let cubi = $('#cub').val();
-        let acad = $('#aca').val();
+        let bole = $('#bol').val();
+        let con = $('#con').val();
         let datos = {
-            "nombre": nom, "apep": apepa, "apem": apema, "cub": cubi, "aca": acad,
+            "nombre": nom, "apep": apepa, "apem": apema, "bol": bole, "con": con,
         }
         Swal.fire({
             title: "¿Esta Seguro?",
-            text: "Agregará al profesor: " + nom +" " + apepa + " " + apema + ". En el cubiculo: " + cubi + " y en la academia: " + acad,
+            text: "Agregará al profesor: " + nom +" " + apepa + " " + apema + ". Con boleta: " + bole + " y contraseña: " + con,
             icon: "question",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -522,7 +495,7 @@ create.addEventListener('click', () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "profesor.php",
+                    url: "alumno.php",
                     type: "post",
                     data: datos,
                     cache: false,

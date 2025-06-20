@@ -3,9 +3,9 @@ include 'configBD.php';
 
 date_default_timezone_set("America/Mexico_City");
 
-$IDProfe = $_POST["IDProfesor"];
+$IDAlumno = $_POST["IDAlumno"];
 
-$sql = "UPDATE profesor SET Estatus = 0 WHERE IDProfesor = '$IDProfe'";
+$sql = "UPDATE alumno SET Estatus = 0 WHERE IDAlumno = '$IDAlumno'";
 
 $respAX = [];
 
@@ -13,7 +13,7 @@ $result = mysqli_query($conexion, $sql);
 
 if(mysqli_affected_rows($conexion) == 1){
       $respAX["code"] = 1;
-      $respAX["msj"] = "Profesor eliminado exitosamente";
+      $respAX["msj"] = "Alumno eliminado exitosamente";
       $respAX["icono"] = "success";
       $respAX["data"] = "";
       $respAX["log"] = date("Y-m-d H:i:s");

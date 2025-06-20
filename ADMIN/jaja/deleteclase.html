@@ -16,7 +16,7 @@
   <link href="https://cdn.datatables.net/buttons/3.2.3/css/buttons.bootstrap5.min.css" rel="stylesheet" integrity="sha384-DJhypeLg79qWALC844KORuTtaJcH45J+36wNgzj4d1Kv1vt2PtRuV2eVmdkVmf/U" crossorigin="anonymous">
   
   <!--MIS CSS-->
-  <link href="deleteclase.css" rel="stylesheet">
+  <link href="./deleteclase.css" rel="stylesheet">
 </head>
 <body>
   <header>
@@ -59,8 +59,8 @@
                     <th>#</th>
                     <th>ID Clase</th>
                     <th>Estatus</th>
-                    <th>Materia</th>
                     <th>Grupo</th>
+                    <th>Materia</th>
                     <th>Salon</th>
                     <th>Tipo Salon</th>
                     <th>Opciones</th>
@@ -69,26 +69,26 @@
             <tbody id="tabla_clases">
                 
             </tbody>
-            <tfoot id="foot">
+            <tfoot>
                 <tr>
                     <th>#</th>
-                    <th>Curso</th>
+                    <th>ID Clase</th>
                     <th>Estatus</th>
-                    <th>Materia</th>
                     <th>Grupo</th>
+                    <th>Materia</th>
                     <th>Salon</th>
                     <th>Tipo Salon</th>
                     <th>Opciones</th>
                 </tr>
-                <tr id="agregar_change">
-                    <td><button class="btn btn-sm btn-success" id="create"><i class="fa-solid fa-square-plus"></i></button></td>
-                    <td id="agr_c">Añadir</td>
-                    <td id="agr_status"></td>
-                    <td name="quitable"></td>
-                    <td name="quitable"></td>
-                    <td name="quitable"></td>
-                    <td name="quitable"></td>
-                    <td name="quitable"></td>
+                <tr>
+                    <th><button class="btn btn-sm btn-success"><i class="fa-solid fa-square-plus"></i></button></th>
+                    <th>Añadir</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </tfoot>
           </table>
@@ -106,7 +106,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
   <!--MIS SCRIPTS-->
-  <script src="script_tabla.js"></script>
+  <script src="./script_tabla.js"></script>
 
   <!--BOOTSTRAP-->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
