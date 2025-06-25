@@ -368,7 +368,6 @@ const initDataTable = async () => {
     await listarClases();
     dataTable = $('#example').DataTable(dataTableOptions);
     dataTableIsInitialized = true;
-    console.log("huevos");
 }
 
 const listarClases = async () => {
@@ -419,6 +418,7 @@ const listarClases = async () => {
     }
 }
 
+let profh;
 create.addEventListener('click', () => {
     let element = document.getElementById("agregar_change");
     const previos = document.getElementsByName("quitable");
@@ -467,6 +467,7 @@ create.addEventListener('click', () => {
                     element.appendChild(para);
                 }
                 element = document.getElementById("agregar_change");
+                element.setAttribute("name", "first");
                 let estatus = document.getElementById("agr_status");
                 let texto = document.createTextNode("1");
                 estatus.appendChild(texto);
@@ -500,14 +501,28 @@ create.addEventListener('click', () => {
                 col_boton.appendChild(bot);
                 element.appendChild(col_boton);
                 bot.addEventListener('click', () => {
-                    let grupo = $('#gru').val();
-                    let materia = $('#mat').val();
+                    let v_curso = String($('#curso').children(":selected").attr("id"));
+                    let v_prof = String($('#prof').children(":selected").attr("id"));
+                    let salones = document.getElementsByName("sal");
+                    let horas = document.getElementsByName("h");
+                    let mensaje_sal = "";
+                    let lim = salones.length;
+                    let data_sal = [];
+                    let data_horas = [];
+                    for (let j = 0; j < lim; j++) {
+                        mensaje_sal = mensaje_sal.concat(salones[j].value);
+                        mensaje_sal = mensaje_sal.concat("->");
+                        mensaje_sal = mensaje_sal.concat(horas[j].value);
+                        mensaje_sal = mensaje_sal.concat("  |  ");
+                        data_sal[j] = salones[j].value;
+                        data_horas[j] = horas[j].options[horas[j].selectedIndex].id;
+                    }
                     let datos = {
-                        "grupo": grupo, "materia": materia,
+                        "curso": v_curso, "salones": data_sal, "prof": v_prof, "horas": data_horas,
                     }
                     Swal.fire({
                         title: "¿Esta Seguro?",
-                        text: "Agregará al curso con materia: " + materia + " y grupo " + grupo,
+                        text: "Agregará al curso con materia: " + val_cursom + " y grupo " + val_cursog + " con el profesor: " + String($('#prof').children(":selected").val()) + " y con clases: " + mensaje_sal,
                         icon: "question",
                         showCancelButton: true,
                         confirmButtonColor: "#3085d6",
@@ -516,7 +531,7 @@ create.addEventListener('click', () => {
                     }).then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
-                                url: "curso.php",
+                                url: "clases.php",
                                 type: "post",
                                 data: datos,
                                 cache: false,
@@ -545,6 +560,8 @@ create.addEventListener('click', () => {
                         }
                     });
                 }, false);
+
+
                 let hteo = parseInt($("#curso").children(":selected").attr("hteo"));
                 let hlab = parseInt($("#curso").children(":selected").attr("hlab"));
                 let foot = document.getElementById("foot");
@@ -627,9 +644,244 @@ create.addEventListener('click', () => {
                         foot.appendChild(element);
                     }
                 }
+
+                element = document.createElement("tr");
+                element.setAttribute("name", "row");
+                let col_1 = document.createElement("th");
+                let t1 = document.createTextNode("");
+                col_1.appendChild(t1);
+                element.appendChild(col_1);
+                let col_2 = document.createElement("th");
+                let t2 = document.createTextNode("");
+                col_2.appendChild(t2);
+                element.appendChild(col_2);
+                let col_3 = document.createElement("th");
+                let t3 = document.createTextNode("Profesor");
+                col_3.appendChild(t3);
+                element.appendChild(col_3);
+                let col_4 = document.createElement("th");
+                let t4 = document.createTextNode("Hora 1");
+                col_4.appendChild(t4);
+                element.appendChild(col_4);
+                let col_5 = document.createElement("th");
+                let t5 = document.createTextNode("Hora 2");
+                col_5.appendChild(t5);
+                element.appendChild(col_5);
+                let col_6 = document.createElement("th");
+                let t6 = document.createTextNode("Hora 3");
+                col_6.appendChild(t6);
+                element.appendChild(col_6);
+                let col_7 = document.createElement("th");
+                let text7 = document.createTextNode("");
+                col_7.appendChild(text7);
+                element.appendChild(col_7);
+                foot.appendChild(element);
+
+                element = document.createElement("tr");
+                element.setAttribute("id", "row");
+                element.setAttribute("name", "row");
+                let col1z = document.createElement("td");
+                let t1z = document.createTextNode("");
+                col1z.appendChild(t1z);
+                element.appendChild(col1z);
+                let col_2z = document.createElement("td");
+                let t2z = document.createTextNode("");
+                col_2z.appendChild(t2z);
+                element.appendChild(col_2z);
+                let col_3z = document.createElement("td");
+                let prof = document.createElement("select");
+                prof.setAttribute("id", "prof");
+                prof.setAttribute("name", "prof");
+                prof.setAttribute("class", "form-select");
+                col_3z.appendChild(prof);
+                element.appendChild(col_3z);
+                foot.appendChild(element);
+                $.ajax({
+                    url: "clase_profh.php",
+                    method: "post",
+                    cache: false,
+                    success: (respAX) => {
+                        let objAX = JSON.parse(respAX);
+                        if (objAX.code == 1) {
+                            const epro = document.getElementById("prof");
+                            for (let i = 0; i < objAX.data.length; i++) {
+                                let para = document.createElement("option");
+                                para.setAttribute("name", objAX.data[i].IDProfesor);
+                                para.setAttribute("id", objAX.data[i].IDProfesor);
+                                let node = document.createTextNode(objAX.data[i].NombrePro + " " + objAX.data[i].PaternoPro + " " + objAX.data[i].MaternoPro);
+                                para.appendChild(node);
+                                epro.appendChild(para);
+                            }
+                            element = document.getElementById("row");
+                            let col_4z = document.createElement("td");
+                            col_4z.setAttribute("name", "hq");
+                            let t4z = document.createElement("select");
+                            t4z.setAttribute("id", "h1");
+                            t4z.setAttribute("name", "h");
+                            t4z.setAttribute("class", "form-select");
+                            col_4z.appendChild(t4z);
+                            element.appendChild(col_4z);
+                            let col_5z = document.createElement("td");
+                            col_5z.setAttribute("name", "hq");
+                            let t5z = document.createElement("select");
+                            t5z.setAttribute("id", "h2");
+                            t5z.setAttribute("name", "h");
+                            t5z.setAttribute("class", "form-select");
+                            col_5z.appendChild(t5z);
+                            element.appendChild(col_5z);
+                            let col_6z = document.createElement("td");
+                            col_6z.setAttribute("name", "hq");
+                            let t6z = document.createElement("select");
+                            t6z.setAttribute("id", "h3");
+                            t6z.setAttribute("name", "h");
+                            t6z.setAttribute("class", "form-select");
+                            col_6z.appendChild(t6z);
+                            element.appendChild(col_6z);
+                            let col_7z = document.createElement("td");
+                            col_7z.setAttribute("name", "hq");
+                            let text7z = document.createTextNode("");
+                            col_7z.appendChild(text7z);
+                            element.appendChild(col_7z);
+                            profh = $("#prof").children(":selected").attr("id")
+                            let datosh = {
+                                "prof": profh,
+                            }
+                            $.ajax({
+                                url: "clase_horasp.php",
+                                method: "post",
+                                data: datosh,
+                                cache: false,
+                                success: (respAX) => {
+                                    let objAX = JSON.parse(respAX);
+                                    if (objAX.code == 1) {
+                                        const elements = document.getElementsByName("h");
+                                        if (elements.length > 0) {
+                                            let lim = elements.length;
+                                            for (let j = 0; j < lim; j++) {
+                                                for (let i = 0; i < objAX.data.length; i++) {  //para mostrar escalonado (mal): for (let i = j; i < objAX.data.length; i++)
+                                                    let para = document.createElement("option");
+                                                    para.setAttribute("name", i);
+                                                    para.setAttribute("id", objAX.data[i].IDEspacio);
+                                                    let node = document.createTextNode(objAX.data[i].NomDia + " " + objAX.data[i].HoraIni + "-" + objAX.data[i].HoraFin);
+                                                    para.appendChild(node);
+                                                    elements[j].appendChild(para);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        const elements = document.getElementsByName("h");
+                                        let lim = elements.length;
+                                        for (let j = 0; j < lim; j++) {
+                                            let para = document.createElement("option");
+                                            para.setAttribute("name", "none");
+                                            let node = document.createTextNode("No fue posible obtener los horarios");
+                                            para.appendChild(node);
+                                            elements[j].appendChild(para);
+                                        }
+                                    }
+                                }
+                            });
+
+                            h2.onchange = function () {
+                                console.log("jaa");
+                            }
+                        }
+                        else {
+                            const element = document.getElementById("prof");
+                            let para = document.createElement("option");
+                            para.setAttribute("name", "none");
+                            let node = document.createTextNode("No fue posible obtener los profes");
+                            para.appendChild(node);
+                            element.appendChild(para);
+                        }
+                    }
+                });
+
+                prof.onchange = function () {
+                    element = document.getElementById("row");
+                    const previos = document.getElementsByName("hq");
+                    if (previos.length > 0) {
+                        let lim = previos.length;
+                        for (let j = 0; j < lim; j++) {
+                            let todelete = previos[0]
+                            element.removeChild(todelete);
+                        }
+                    }
+                    let col_4z = document.createElement("td");
+                    col_4z.setAttribute("name", "hq");
+                    let t4z = document.createElement("select");
+                    t4z.setAttribute("id", "h1");
+                    t4z.setAttribute("name", "h");
+                    t4z.setAttribute("class", "form-select");
+                    col_4z.appendChild(t4z);
+                    element.appendChild(col_4z);
+                    let col_5z = document.createElement("td");
+                    col_5z.setAttribute("name", "hq");
+                    let t5z = document.createElement("select");
+                    t5z.setAttribute("id", "h2");
+                    t5z.setAttribute("name", "h");
+                    t5z.setAttribute("class", "form-select");
+                    col_5z.appendChild(t5z);
+                    element.appendChild(col_5z);
+                    let col_6z = document.createElement("td");
+                    col_6z.setAttribute("name", "hq");
+                    let t6z = document.createElement("select");
+                    t6z.setAttribute("id", "h3");
+                    t6z.setAttribute("name", "h");
+                    t6z.setAttribute("class", "form-select");
+                    col_6z.appendChild(t6z);
+                    element.appendChild(col_6z);
+                    let col_7z = document.createElement("td");
+                    col_7z.setAttribute("name", "hq");
+                    let text7z = document.createTextNode("");
+                    col_7z.appendChild(text7z);
+                    element.appendChild(col_7z);
+                    profh = $("#prof").children(":selected").attr("id")
+                    let datosh = {
+                        "prof": profh,
+                    }
+                    $.ajax({
+                        url: "clase_horasp.php",
+                        method: "post",
+                        data: datosh,
+                        cache: false,
+                        success: (respAX) => {
+                            let objAX = JSON.parse(respAX);
+                            if (objAX.code == 1) {
+                                const elements = document.getElementsByName("h");
+                                if (elements.length > 0) {
+                                    let lim = elements.length;
+                                    for (let j = 0; j < lim; j++) {
+                                        for (let i = 0; i < objAX.data.length; i++) {
+                                            let para = document.createElement("option");
+                                            para.setAttribute("name", i);
+                                            para.setAttribute("id", objAX.data[i].IDEspacio);
+                                            let node = document.createTextNode(objAX.data[i].NomDia + " " + objAX.data[i].HoraIni + "-" + objAX.data[i].HoraFin);
+                                            para.appendChild(node);
+                                            elements[j].appendChild(para);
+                                        }
+                                    }
+                                }
+                            }
+                            else {
+                                const elements = document.getElementsByName("h");
+                                let lim = elements.length;
+                                for (let j = 0; j < lim; j++) {
+                                    let para = document.createElement("option");
+                                    para.setAttribute("name", "none");
+                                    let node = document.createTextNode("No fue posible obtener los horarios");
+                                    para.appendChild(node);
+                                    elements[j].appendChild(para);
+                                }
+                            }
+                        }
+                    });
+                }
+
             }
             else {
-                let element = document.getElementById("curso");
+                let element = document.getElementById("p");
                 let para = document.createElement("option");
                 para.setAttribute("name", "none");
                 let node = document.createTextNode("No fue posible obtener los cursos");
@@ -667,13 +919,14 @@ create.addEventListener('click', () => {
                 for (let j = 0; j < lim; j++) {
                     let para = document.createElement("option");
                     para.setAttribute("name", "none");
-                    let node = document.createTextNode("No fue posible obtener los grupos");
+                    let node = document.createTextNode("No fue posible obtener los salones");
                     para.appendChild(node);
                     elements[j].appendChild(para);
                 }
             }
         }
     });
+
 
     curso.onchange = function () {
         let hteo = parseInt($(this).children(":selected").attr("hteo"));
@@ -730,6 +983,7 @@ create.addEventListener('click', () => {
                 col_tip.appendChild(textt);
                 element.appendChild(col_tip);
                 foot.appendChild(element);
+
             }
         }
         if (hlab > 0) {
@@ -772,6 +1026,235 @@ create.addEventListener('click', () => {
             }
         }
 
+        element = document.createElement("tr");
+        element.setAttribute("name", "row");
+        let col_1a = document.createElement("th");
+        let t1a = document.createTextNode("");
+        col_1a.appendChild(t1a);
+        element.appendChild(col_1a);
+        let col_2a = document.createElement("th");
+        let t2a = document.createTextNode("");
+        col_2a.appendChild(t2a);
+        element.appendChild(col_2a);
+        let col_3a = document.createElement("th");
+        let t3a = document.createTextNode("Profesor");
+        col_3a.appendChild(t3a);
+        element.appendChild(col_3a);
+        let col_4a = document.createElement("th");
+        let t4a = document.createTextNode("Hora 1");
+        col_4a.appendChild(t4a);
+        element.appendChild(col_4a);
+        let col_5a = document.createElement("th");
+        let t5a = document.createTextNode("Hora 2");
+        col_5a.appendChild(t5a);
+        element.appendChild(col_5a);
+        let col_6 = document.createElement("th");
+        let t6 = document.createTextNode("Hora 3");
+        col_6.appendChild(t6);
+        element.appendChild(col_6);
+        let col_7 = document.createElement("th");
+        let text7 = document.createTextNode("");
+        col_7.appendChild(text7);
+        element.appendChild(col_7);
+        foot.appendChild(element);
+        element = document.createElement("tr");
+        element.setAttribute("id", "row");
+        element.setAttribute("name", "row");
+        let col1z = document.createElement("td");
+        let t1z = document.createTextNode("");
+        col1z.appendChild(t1z);
+        element.appendChild(col1z);
+        let col_2z = document.createElement("td");
+        let t2z = document.createTextNode("");
+        col_2z.appendChild(t2z);
+        element.appendChild(col_2z);
+        let col_3z = document.createElement("td");
+        let prof = document.createElement("select");
+        prof.setAttribute("id", "prof");
+        prof.setAttribute("name", "prof");
+        prof.setAttribute("class", "form-select");
+        col_3z.appendChild(prof);
+        element.appendChild(col_3z);
+        foot.appendChild(element);
+        $.ajax({
+            url: "clase_profh.php",
+            method: "post",
+            cache: false,
+            success: (respAX) => {
+                let objAX = JSON.parse(respAX);
+                if (objAX.code == 1) {
+                    const epro = document.getElementById("prof");
+                    for (let i = 0; i < objAX.data.length; i++) {
+                        let para = document.createElement("option");
+                        para.setAttribute("name", objAX.data[i].IDProfesor);
+                        para.setAttribute("id", objAX.data[i].IDProfesor);
+                        let node = document.createTextNode(objAX.data[i].NombrePro + " " + objAX.data[i].PaternoPro + " " + objAX.data[i].MaternoPro);
+                        para.appendChild(node);
+                        epro.appendChild(para);
+                    }
+                    element = document.getElementById("row");
+                    let col_4z = document.createElement("td");
+                    col_4z.setAttribute("name", "hq");
+                    let t4z = document.createElement("select");
+                    t4z.setAttribute("id", "h1");
+                    t4z.setAttribute("name", "h");
+                    t4z.setAttribute("class", "form-select");
+                    col_4z.appendChild(t4z);
+                    element.appendChild(col_4z);
+                    let col_5z = document.createElement("td");
+                    col_5z.setAttribute("name", "hq");
+                    let t5z = document.createElement("select");
+                    t5z.setAttribute("id", "h2");
+                    t5z.setAttribute("name", "h");
+                    t5z.setAttribute("class", "form-select");
+                    col_5z.appendChild(t5z);
+                    element.appendChild(col_5z);
+                    let col_6z = document.createElement("td");
+                    col_6z.setAttribute("name", "hq");
+                    let t6z = document.createElement("select");
+                    t6z.setAttribute("id", "h3");
+                    t6z.setAttribute("name", "h");
+                    t6z.setAttribute("class", "form-select");
+                    col_6z.appendChild(t6z);
+                    element.appendChild(col_6z);
+                    let col_7z = document.createElement("td");
+                    col_7z.setAttribute("name", "hq");
+                    let text7z = document.createTextNode("");
+                    col_7z.appendChild(text7z);
+                    element.appendChild(col_7z);
+                    profh = $("#prof").children(":selected").attr("id")
+                    let datosh = {
+                        "prof": profh,
+                    }
+                    $.ajax({
+                        url: "clase_horasp.php",
+                        method: "post",
+                        data: datosh,
+                        cache: false,
+                        success: (respAX) => {
+                            let objAX = JSON.parse(respAX);
+                            if (objAX.code == 1) {
+                                const elements = document.getElementsByName("h");
+                                if (elements.length > 0) {
+                                    let lim = elements.length;
+                                    for (let j = 0; j < lim; j++) {
+                                        for (let i = 0; i < objAX.data.length; i++) {
+                                            let para = document.createElement("option");
+                                            para.setAttribute("name", objAX.data[i].HoraFin);
+                                            para.setAttribute("id", objAX.data[i].IDEspacio);
+                                            let node = document.createTextNode(objAX.data[i].NomDia + " " + objAX.data[i].HoraIni + "-" + objAX.data[i].HoraFin);
+                                            para.appendChild(node);
+                                            elements[j].appendChild(para);
+                                        }
+                                    }
+                                }
+                            }
+                            else {
+                                const elements = document.getElementsByName("h");
+                                let lim = elements.length;
+                                for (let j = 0; j < lim; j++) {
+                                    let para = document.createElement("option");
+                                    para.setAttribute("name", "none");
+                                    let node = document.createTextNode("No fue posible obtener los horarios");
+                                    para.appendChild(node);
+                                    elements[j].appendChild(para);
+                                }
+                            }
+                        }
+                    });
+                }
+                else {
+                    const element = document.getElementById("prof");
+                    let para = document.createElement("option");
+                    para.setAttribute("name", "none");
+                    let node = document.createTextNode("No fue posible obtener los profes");
+                    para.appendChild(node);
+                    element.appendChild(para);
+                }
+            }
+        });
+
+        prof.onchange = function () {
+            element = document.getElementById("row");
+            const previos = document.getElementsByName("hq");
+            if (previos.length > 0) {
+                let lim = previos.length;
+                for (let j = 0; j < lim; j++) {
+                    let todelete = previos[0]
+                    element.removeChild(todelete);
+                }
+            }
+            let col_4z = document.createElement("td");
+            col_4z.setAttribute("name", "hq");
+            let t4z = document.createElement("select");
+            t4z.setAttribute("id", "h1");
+            t4z.setAttribute("name", "h");
+            t4z.setAttribute("class", "form-select");
+            col_4z.appendChild(t4z);
+            element.appendChild(col_4z);
+            let col_5z = document.createElement("td");
+            col_5z.setAttribute("name", "hq");
+            let t5z = document.createElement("select");
+            t5z.setAttribute("id", "h2");
+            t5z.setAttribute("name", "h");
+            t5z.setAttribute("class", "form-select");
+            col_5z.appendChild(t5z);
+            element.appendChild(col_5z);
+            let col_6z = document.createElement("td");
+            col_6z.setAttribute("name", "hq");
+            let t6z = document.createElement("select");
+            t6z.setAttribute("id", "h3");
+            t6z.setAttribute("name", "h");
+            t6z.setAttribute("class", "form-select");
+            col_6z.appendChild(t6z);
+            element.appendChild(col_6z);
+            let col_7z = document.createElement("td");
+            col_7z.setAttribute("name", "hq");
+            let text7z = document.createTextNode("");
+            col_7z.appendChild(text7z);
+            element.appendChild(col_7z);
+            profh = $("#prof").children(":selected").attr("id")
+            let datosh = {
+                "prof": profh,
+            }
+            $.ajax({
+                url: "clase_horasp.php",
+                method: "post",
+                data: datosh,
+                cache: false,
+                success: (respAX) => {
+                    let objAX = JSON.parse(respAX);
+                    if (objAX.code == 1) {
+                        const elements = document.getElementsByName("h");
+                        if (elements.length > 0) {
+                            let lim = elements.length;
+                            for (let j = 0; j < lim; j++) {
+                                for (let i = 0; i < objAX.data.length; i++) {
+                                    let para = document.createElement("option");
+                                    para.setAttribute("name", objAX.data[i].HoraFin);
+                                    para.setAttribute("id", objAX.data[i].IDEspacio);
+                                    let node = document.createTextNode(objAX.data[i].NomDia + " " + objAX.data[i].HoraIni + "-" + objAX.data[i].HoraFin);
+                                    para.appendChild(node);
+                                    elements[j].appendChild(para);
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        const elements = document.getElementsByName("h");
+                        let lim = elements.length;
+                        for (let j = 0; j < lim; j++) {
+                            let para = document.createElement("option");
+                            para.setAttribute("name", "none");
+                            let node = document.createTextNode("No fue posible obtener los horarios");
+                            para.appendChild(node);
+                            elements[j].appendChild(para);
+                        }
+                    }
+                }
+            });
+        }
+
         $.ajax({
             url: "clase_sal.php",
             method: "post",
@@ -782,7 +1265,8 @@ create.addEventListener('click', () => {
                     const elements = document.getElementsByName("sal");
                     if (elements.length > 0) {
                         let lim = elements.length;
-                        for (let j = 0; j < lim; j++) {
+                        console.log(elements)
+                        for (let j = 1; j < lim; j++) {
                             for (let i = 0; i < objAX.data.length; i++) {
                                 let para = document.createElement("option");
                                 para.setAttribute("name", objAX.data[i].IdTipo);
@@ -798,17 +1282,13 @@ create.addEventListener('click', () => {
                     let element = document.getElementById("gru");
                     let para = document.createElement("option");
                     para.setAttribute("name", "none");
-                    let node = document.createTextNode("No fue posible obtener los grupos");
+                    let node = document.createTextNode("No fue posible obtener los salones");
                     para.appendChild(node);
                     element.appendChild(para);
                 }
             }
         });
     }
-
-
-
-
 
 }, false);
 

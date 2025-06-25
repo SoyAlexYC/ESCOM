@@ -2,3 +2,21 @@ el db.sql tiene dos errores de coma, al meterlo al phpmyadmin, te dic donde esta
 
 actualizacion 15/06: la tabla alumno estaba mal construida, ya se arreglaron los de coma.
 actualizacion 17/06: la tabla semestre tenia campos de mas. hay campos de otras tablas (como nombre de materia) que deberan ser de mayor num de caracteres.
+
+SELECT COUNT(*) as act FROM `profesor` WHERE estatus IS NOT NULL;
+SELECT COUNT(*) as act FROM `profesor` WHERE estatus = 1;
+SELECT COUNT(*) as act FROM `espacio` WHERE IdClase IS NULL;
+SELECT COUNT(*) as act,p.IDProfesor,p.NombrePro,p.PaternoPro,p.MaternoPro,hora.HoraIni,hora.HoraFin FROM hora inner join espacio e on hora.IDHora=e.IdHora inner join dia d on d.IDDia=e.IdDia inner join horario h on e.IdHorario = h.IDHorario inner join profesor p on h.IdProfesor =p.IDProfesor WHERE e.IdClase IS NULL;
+
+SELECT COUNT(P.IDProfesor) as act,p.IDProfesor FROM profesor inner join horario h on h.IdProfesor =p.IDProfesor inner join espacio e on e.IdHorario = h.IDHorario  WHERE e.IdClase IS NULL GROUP BY p.IDProfesor
+having COUNT(P.IDProfesor) >= 3
+ORDER BY act DESC;
+
+
+SELECT COUNT(P.IDProfesor) as act,p.IDProfesor,p.NombrePro,p.PaternoPro,p.MaternoPro FROM hora inner join espacio e on hora.IDHora=e.IdHora inner join dia d on d.IDDia=e.IdDia inner join horario h on e.IdHorario = h.IDHorario inner join profesor p on h.IdProfesor =p.IDProfesor WHERE e.IdClase IS NULL GROUP BY p.IDProfesor
+having COUNT(P.IDProfesor) >= 3
+ORDER BY act DESC;
+
+SELECT COUNT(P.IDProfesor) as act,p.IDProfesor FROM profesor p inner join horario h on h.IdProfesor =p.IDProfesor inner join espacio e on e.IdHorario = h.IDHorario  WHERE e.IdClase IS NULL GROUP BY p.IDProfesor
+having COUNT(P.IDProfesor) >= 3
+ORDER BY act DESC;
