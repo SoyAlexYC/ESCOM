@@ -12,6 +12,7 @@ $apep = $_REQUEST["apep"];
 $apem = $_REQUEST["apem"];
 $cub = $_REQUEST["cub"];
 $aca = $_REQUEST["aca"];
+$horas = $_REQUEST["horas"];
 
 $sql1 = "SELECT * FROM profesor WHERE nombrepro = '$nombre' and paternopro = '$apep' and maternopro = '$apem'";
 $respAX = [];
@@ -36,14 +37,46 @@ if ($existe->num_rows == 0) {
             $sql4 = "INSERT INTO horario (Semestre, Estatus, IdProfesor) VALUES ('$idsem', 1, '$idp')";
             $res4 = mysqli_query($conexion, $sql4);
             if ($res4) {
-                $respAX["code"] = 1;
-                $respAX["log"] = date("Y-m-d H:i:s");
-                $respAX["data"] = "Se registró al profesor: " . $nombre . " " . $apep . " " . $apem . ", en el cubiculo: " . $cub . " y en la academia: " . $aca;
-                echo json_encode($respAX);
+                $sqlh = "SELECT * FROM horario order by IDHorario desc LIMIT 1";
+                $resh = mysqli_query($conexion, $sqlh);
+                if ($resh->num_rows == 1) {
+                    $resh->data_seek(0);
+                    $idh = $resh->fetch_assoc()['IDHorario'];
+                    $hori = $horas[0];
+                    $horf = $horas[1];
+                    $flag = 0;
+                    for ($i = $hori; $i <= $horf; $i++) {
+                        if ($flag == 0) {
+                            for ($j = 1; $j <= 5; $j++) {
+                                if ($flag == 0) {
+                                    $sql5 = "INSERT INTO espacio (Detalles, Estatus, IdHorario, IdClase, IdDia, IdHora) VALUES ('sin clase', 1,'$idh', NULL, '$j', '$i')";
+                                    $res5 = mysqli_query($conexion, $sql5);
+                                    if (!$res5) {
+                                        $flag = 1;
+                                    }
+                                }
+
+                            }
+
+                        }
+                    }
+                    if ($flag == 0) {
+                        $respAX["code"] = 1;
+                        $respAX["log"] = date("Y-m-d H:i:s");
+                        $respAX["msj"] = "Se registró al profesor: " . $nombre . " " . $apep . " " . $apem . ", en el cubiculo: " . $cub . " y en la academia: " . $aca;
+                        echo json_encode($respAX);
+                    } else {
+                    }
+                } else {
+                    $respAX["code"] = 1;
+                    $respAX["log"] = date("Y-m-d H:i:s");
+                    $respAX["msj"] = "Se registró al profesor: " . $nombre . " " . $apep . " " . $apem . ", pero su jornada deberá crearse manualmente, se logró insertar horario,  consultar manual.";
+                    echo json_encode($respAX);
+                }
             } else {
                 $respAX["code"] = 1;
                 $respAX["log"] = date("Y-m-d H:i:s");
-                $respAX["data"] = "Se registró al profesor: " . $nombre . " " . $apep . " " . $apem . ", pero su horario deberá crearse manualmente, consultar manual.";
+                $respAX["msj"] = "Se registró al profesor: " . $nombre . " " . $apep . " " . $apem . ", pero su horario deberá crearse manualmente, consultar manual.";
                 echo json_encode($respAX);
             }
         } else {

@@ -507,12 +507,18 @@ create.addEventListener('click', () => {
         let apema = $('#apem').val();
         let cubi = $('#cub').val();
         let acad = $('#aca').val();
+        let hors = [];
+        let mhi = $('#hi').val();
+        let mhf = $('#hf').val();
+        hors[0] = parseInt($("#hi").children(":selected").attr("id"))
+        hors[1] = parseInt($("#hf").children(":selected").attr("id"))
+        console.log(hors)
         let datos = {
-            "nombre": nom, "apep": apepa, "apem": apema, "cub": cubi, "aca": acad,
+            "nombre": nom, "apep": apepa, "apem": apema, "cub": cubi, "aca": acad, "horas": hors
         }
         Swal.fire({
             title: "¿Esta Seguro?",
-            text: "Agregará al profesor: " + nom +" " + apepa + " " + apema + ". En el cubiculo: " + cubi + " y en la academia: " + acad,
+            text: "Agregará al profesor: " + nom + " " + apepa + " " + apema + ". En el cubiculo: " + cubi + " y en la academia: " + acad + " con jornada: " + mhi + "-" + mhf,
             icon: "question",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -551,7 +557,183 @@ create.addEventListener('click', () => {
         });
     }, false);
 
+    let foot = document.getElementById("foot");
+
+    element = document.createElement("tr");
+    element.setAttribute("name", "row");
+    let col_1a = document.createElement("th");
+    let t1a = document.createTextNode("");
+    col_1a.appendChild(t1a);
+    element.appendChild(col_1a);
+    let col_2a = document.createElement("th");
+    let t2a = document.createTextNode("");
+    col_2a.appendChild(t2a);
+    element.appendChild(col_2a);
+    let col_3a = document.createElement("th");
+    let t3a = document.createTextNode("");
+    col_3a.appendChild(t3a);
+    element.appendChild(col_3a);
+    let col_4 = document.createElement("th");
+    let t4z = document.createTextNode("Horas Laborales");
+    col_4.appendChild(t4z);
+    element.appendChild(col_4);
+    let col_hi = document.createElement("th");
+    let hf2 = document.createTextNode("Hora Inicio");
+    col_hi.appendChild(hf2);
+    element.appendChild(col_hi);
+    let col_hf = document.createElement("th");
+    let hf1 = document.createTextNode("Hora Fin");
+    col_hf.appendChild(hf1);
+    element.appendChild(col_hf);
+    let col_t = document.createElement("th");
+    let text = document.createTextNode("");
+    col_t.appendChild(text);
+    element.appendChild(col_t);
+    foot.appendChild(element);
+
+    element = document.createElement("tr");
+    element.setAttribute("name", "row");
+    let col_1 = document.createElement("td");
+    let t1 = document.createTextNode("");
+    col_1.appendChild(t1);
+    element.appendChild(col_1);
+    let col_2 = document.createElement("td");
+    let t2 = document.createTextNode("");
+    col_2.appendChild(t2);
+    element.appendChild(col_2);
+    let col_3 = document.createElement("td");
+    let t3 = document.createTextNode("");
+    col_3.appendChild(t3);
+    element.appendChild(col_3);
+    let col_mat = document.createElement("td");
+    let t4 = document.createTextNode("Horas Laborales");
+    col_mat.appendChild(t4);
+    element.appendChild(col_mat);
+    let col_sal = document.createElement("td");
+    let hi = document.createElement("select");
+    hi.setAttribute("id", "hi");
+    hi.setAttribute("name", "hi");
+    hi.setAttribute("class", "form-select");
+    col_sal.appendChild(hi);
+    element.appendChild(col_sal);
+    let col_gru = document.createElement("td");
+    let hf = document.createElement("select");
+    hf.setAttribute("id", "hf");
+    hf.setAttribute("name", "hf");
+    hf.setAttribute("class", "form-select");
+    col_gru.appendChild(hf);
+    element.appendChild(col_gru);
+    let col_tip = document.createElement("td");
+    let textt = document.createTextNode("");
+    col_tip.appendChild(textt);
+    element.appendChild(col_tip);
+    foot.appendChild(element);
+
+    $.ajax({
+        url: "prof_h.php",
+        method: "post",
+        cache: false,
+        success: (respAX) => {
+            let objAX = JSON.parse(respAX);
+            if (objAX.code == 1) {
+                let element = document.getElementById("hi");
+                for (let i = 0; i < objAX.data.length; i++) {
+                    let para = document.createElement("option");
+                    para.setAttribute("name", objAX.data[i].IDHora);
+                    para.setAttribute("id", objAX.data[i].IDHora);
+                    let node = document.createTextNode(objAX.data[i].HoraIni);
+                    para.appendChild(node);
+                    element.appendChild(para);
+                }
+
+                element = document.getElementById("hf");
+                let ini = parseInt($("#hi").children(":selected").attr("id"));
+                for (let i = 0; i < objAX.data.length; i++) {
+                    if (ini <= parseInt(objAX.data[i].IDHora)) {
+                        let para = document.createElement("option");
+                        para.setAttribute("name", "opc");
+                        para.setAttribute("id", objAX.data[i].IDHora);
+                        let node = document.createTextNode(objAX.data[i].HoraFin);
+                        para.appendChild(node);
+                        element.appendChild(para);
+                    }
+
+                }
+            }
+            else {
+                let element = document.getElementById("hi");
+                let para = document.createElement("option");
+                para.setAttribute("name", "none");
+                let node = document.createTextNode("No fue posible obtener las horas");
+                para.appendChild(node);
+                element.appendChild(para);
+                element = document.getElementById("hf");
+                para = document.createElement("option");
+                para.setAttribute("name", "none");
+                node = document.createTextNode("No fue posible obtener las horas");
+                para.appendChild(node);
+                element.appendChild(para);
+            }
+        }
+    });
+
+    hi.onchange = function () {
+        let param = parseInt($(this).children(":selected").attr("id"));
+        element = document.getElementById("hf");
+        const previos = document.getElementsByName("opc");
+        if (previos.length > 0) {
+            if (parseInt(previos[0].id) < param) {
+                while (parseInt(previos[0].id) < param) {
+                    let todelete = previos[0]
+                    element.removeChild(todelete);
+                }
+            }
+            else {
+                $.ajax({
+                    url: "prof_h.php",
+                    method: "post",
+                    cache: false,
+                    success: (respAX) => {
+                        let objAX = JSON.parse(respAX);
+                        if (objAX.code == 1) {
+                            let element = document.getElementById("hf");
+                            const previos = document.getElementsByName("opc");
+                            if (previos.length > 0) {
+                                let lim = previos.length;
+                                for (let j = 0; j < lim; j++) {
+                                    let todelete = previos[0]
+                                    element.removeChild(todelete);
+                                }
+                            }
+                            for (let i = 0; i < objAX.data.length; i++) {
+                                if (param <= parseInt(objAX.data[i].IDHora)) {
+                                    let para = document.createElement("option");
+                                    para.setAttribute("name", "opc");
+                                    para.setAttribute("id", objAX.data[i].IDHora);
+                                    let node = document.createTextNode(objAX.data[i].HoraFin);
+                                    para.appendChild(node);
+                                    element.appendChild(para);
+                                }
+
+                            }
+                        }
+                        else {
+                            let element = document.getElementById("hf");
+                            para = document.createElement("option");
+                            para.setAttribute("name", "none");
+                            node = document.createTextNode("No fue posible obtener las horas");
+                            para.appendChild(node);
+                            element.appendChild(para);
+                        }
+                    }
+                });
+            }
+        }
+    }
+
 }, false);
+
+
 
 window.addEventListener('load', async () => {
     await initDataTable();
